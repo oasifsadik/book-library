@@ -58,18 +58,19 @@ class BooksController extends Controller
         $book->status       = $request->status;
         $deleteOldpdf       ='books/'.$book->file;
 
-        if($pdf = $request->file('file')){
+        if($pdf = $request->file('file'))
+        {
             if (file_exists($deleteOldpdf))
-            {
-                unlink($deleteOldpdf);
-            }
+                {
+                    unlink($deleteOldpdf);
+                }
             $customimage = time().'.'.$pdf->getClientOriginalExtension();
             $pdf->move("books/" , $customimage);
-            }
-            else
-            {
-                $customimage = $book->file;
-            }
+        }
+        else
+        {
+            $customimage = $book->file;
+        }
         $book->file = $customimage;
         $book->update();
         return redirect('/Admin/list');
@@ -82,9 +83,9 @@ class BooksController extends Controller
             {
                 $oldpdf = public_path('books/' . $book->file);
                     if (file_exists($oldpdf))
-                    {
-                        unlink($oldpdf);
-                    }
+                        {
+                            unlink($oldpdf);
+                        }
                 $book->delete();
             }
         return redirect('/Admin/list');

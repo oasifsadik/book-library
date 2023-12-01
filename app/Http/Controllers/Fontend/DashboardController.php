@@ -24,27 +24,33 @@ class DashboardController extends Controller
     public function orderItem(Request $request, $id)
     {
         $book = Book::find($id);
-
-        if (!Auth::check()) {
+        if (!Auth::check())
+        {
             return redirect()->route('login')->with('error', 'Please log in to order the book');
         }
-
-        if ($book->status == 'premium') {
+        if ($book->status == 'premium')
+        {
             $orderItem = new OrderItem([
                 'book_id' => $book->id,
                 'user_id' => Auth::user()->id
             ]);
             $orderItem->save();
             return redirect('/user/Dashboard');
-        } else {
+        }
+        else
+        {
             return redirect()->back()->with('error', 'This book is not available for order');
         }
     }
+
     public function orderbook($id)
     {
-        $orderedBooks = OrderItem::with('book')->where('user_id',$id)->get();
+        $orderedBooks = OrderItem::with('book')
+                                    ->where('user_id',$id)
+                                    ->get();
         return view('fontend.orderBook',compact('orderedBooks'));
     }
+
     public function buybooks($id)
     {
         $buys = OrderItem::with('book')

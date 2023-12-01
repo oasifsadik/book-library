@@ -13,8 +13,4 @@ class FontendCOntroller extends Controller
         $books = Book::get();
         return view('home',compact('books'));
     }
-    public function single($id)
-    {
-
-    }
 }
